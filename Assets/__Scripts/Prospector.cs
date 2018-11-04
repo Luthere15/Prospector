@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Prospector : MonoBehaviour {
+public class Prospector : MonoBehaviour
+{
 
 	static public Prospector 	S;
 
@@ -47,6 +48,60 @@ public class Prospector : MonoBehaviour {
         drawPile = ConvertListCardsToListCardProspectors(deck.cards);
         LayoutGame();
 	}
+
+    void MoveToDiscard(CardProspector cd)
+    {
+        cd.state = eCardState.discard;
+        discardPile.Add(cd);
+        cd.transform.parent = layoutAnchor;
+
+        cd.transform.localPosition = new Vector3(
+            layout.multiplier.x * layout.discardPile.x,
+            layout.multiplier.y * layout.discardPile.y,
+            -layout.discardPile.layerID + 0.5f);
+        cd.faceUp = true;
+
+        cd.SetSortingLayerName(layout.discardPile.layerName);
+        cd.SetSortOrder(-100 + discardPile.Count);
+    }
+
+    void MoveToTarget(CardProspector cd)
+    {
+        if (target != null) MoveToDiscard(target);
+        target = cd;
+        cd.state = eCardState.target;
+        cd.transform.parent = layoutAnchor;
+
+        cd.transform.localPosition = new Vector3(
+            layout.multiplier.x * layout.discardPile.x,
+            layout.multiplier.y * layout.discardPile.y,
+            -layout.discardPile.layerID);
+        cd.faceUp = true;
+        cd.SetSortingLayerName(layout.discardPile.layerName);
+        cd.SetSortOrder(0);
+    }
+
+    void UpdateDrawPile()
+    {
+        CardProspector cd;
+
+        for(int i=0; i<drawPile.Count; i++)
+        {
+            cd = drawPile[i];
+            cd.transform.parent = layoutAnchor;
+
+            Vector2 dpStagger = layout.drawPile.stagger;
+            cd.transform.localPosition = new Vector3(
+                layout.multiplier.x * (layout.drawPile.x + i * dpStagger.x),
+                layout.multiplier.y * (layout.drawPile.y + i * dpStagger.y),
+                -layout.drawPile.layerID + 0.1f * i);
+
+            cd.faceUp = false;
+            cd.state = eCardState.drawpile;
+            cd.SetSortingLayerName(layout.drawPile.layerName);
+            cd.SetSortOrder(-10 * 1);
+        }
+    }
 
     List<CardProspector> ConvertListCardsToListCardProspectors(List<Card> lCD)
     {
@@ -92,6 +147,28 @@ public class Prospector : MonoBehaviour {
                 cp.layoutID = tSD.id;
                 cp.slotDef = tSD;
                 cp.state = eCardState.tableau;
+
+                tableau.Add(cp);
+            }
+            MoveToTarget(Draw());
+
+            UpdateDrawPile();
+
+        }
+
+        public void CardClicked(CardProspector cd)
+        {
+            switch (cd.state)
+            {
+                case eCardState.target:
+                    break;
+                case eCardState.drawpile:
+                    MoveToDiscard(target);
+                    MoveToTarget(Draw());
+                    UpdateDrawPile();
+                    break;
+                case eCardState.tableau:
+                    break;
             }
         }
     }
