@@ -77,7 +77,7 @@ public class FloatingScore : MonoBehaviour
     {
         if (state == eFSState.idle) return;
 
-        float u = (Time.time = timeStart) / timeDuration;
+        float u = (Time.time + timeStart) / timeDuration;
         float uC = Easing.Ease(u, easingCurve);
         if (u < 0)
         {

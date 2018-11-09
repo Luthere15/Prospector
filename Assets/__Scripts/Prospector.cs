@@ -120,13 +120,13 @@ public class Prospector : MonoBehaviour
             lCP.Add(tCP);
         }
         return (lCP);
-
-        CardProspector Draw()
-        {
-            CardProspector cd = drawPile[0];
-            drawPile.RemoveAt(0);
+    }
+    CardProspector Draw()
+       {
+           CardProspector cd = drawPile[0];
+           drawPile.RemoveAt(0);
             return (cd);
-        }
+       }
 
         void LayoutGame()
         {
@@ -190,7 +190,7 @@ public class Prospector : MonoBehaviour
             foreach (CardProspector cd in tableau)
             {
                 bool faceUp = true;
-                foreach (CardProspector covwer in cd.hiddenBy)
+                foreach (CardProspector cover in cd.hiddenBy)
                 {
                     if (cover.state == eCardState.tableau)
                     {
@@ -201,12 +201,13 @@ public class Prospector : MonoBehaviour
             }
         }
 
-        public void CardClicked(CardProspector cd)
+        void CardClicked(CardProspector cd)
         {
             switch (cd.state)
             {
                 case eCardState.target:
                     break;
+
                 case eCardState.drawpile:
                     MoveToDiscard(target);
                     MoveToTarget(Draw());
@@ -214,6 +215,7 @@ public class Prospector : MonoBehaviour
                     ScoreManager.EVENT(eScoreEvent.draw);
                     FloatingScoreHandler(eScoreEvent.draw);
                     break;
+
                 case eCardState.tableau:
 
                     bool validMatch = true;
@@ -229,6 +231,7 @@ public class Prospector : MonoBehaviour
                     tableau.Remove(cd);
                     MoveToTarget(cd);
                     SetTableauFaces();
+
                     ScoreManager.EVENT(eScoreEvent.mine);
                     FloatingScoreHandler(eScoreEvent.mine);
                     break;
@@ -265,19 +268,19 @@ public class Prospector : MonoBehaviour
             if (won)
             {
                 //print("Game Over.You Won!:)");
-                ScoreManager.Event(eScoreEvent.gameWin);
+                ScoreManager.EVENT(eScoreEvent.gameWin);
                 FloatingScoreHandler(eScoreEvent.gameWin);
             }
             else
             {
                 // print("GameOver. You Lost. :(");
-                ScoreManager.Event(eScoreEvent.gameLoss);
+                ScoreManager.EVENT(eScoreEvent.gameLoss);
                 FloatingScoreHandler(eScoreEvent.gameLoss);
             }
             SceneManager.LoadScene("_Prospector_Scene_0");
         }
 
-        public bool AdjacentRank(CardProspector c0, CardProspector c1)
+        bool AdjacentRank(CardProspector c0, CardProspector c1)
         {
             if (!c0.faceUp || !c1.faceUp) return (false);
 
@@ -340,4 +343,4 @@ public class Prospector : MonoBehaviour
 
 
 
-}
+

@@ -42,19 +42,19 @@ public class ScoreManager : MonoBehaviour
         SCORE_FROM_PREV_ROUND = 0;
     }
 
-    static public void Event(eScoreEvent evt)
+    static public void EVENT(eScoreEvent evt)
     {
         try
         {
             S.Event(evt);
         }
-        catch(System.NullreferenceException nre)
+        catch(System.NullReferenceException nre)
         {
             Debug.LogError("ScoreManager: Event() called while s=null.\n" + nre);
         }
     }
 
-    void EVENT(eScoreEvent evt)
+    void Event(eScoreEvent evt)
     {
         switch (evt)
         {

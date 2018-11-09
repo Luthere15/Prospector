@@ -20,15 +20,7 @@ public class Card : MonoBehaviour {
 
 
 
-	public bool faceUp {
-		get {
-			return (!back.activeSelf);
-		}
-
-		set {
-			back.SetActive(!value);
-		}
-	}
+	
 
     virtual public void OnMouseUpAsButton()
     {
@@ -46,7 +38,7 @@ public class Card : MonoBehaviour {
     {
         if(spriteRenderers == null || spriteRenderers.Length == 0)
         {
-            spriteRenderers = GetComponentInChildren<SpriteRenderer>();
+            spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         }
     }
 
@@ -83,7 +75,18 @@ public class Card : MonoBehaviour {
             }
         }
     }
-	
+    public bool faceUp
+    {
+        get
+        {
+            return (!back.activeSelf);
+        }
+
+        set
+        {
+            back.SetActive(!value);
+        }
+    }
 } // class Card
 
 [System.Serializable]
