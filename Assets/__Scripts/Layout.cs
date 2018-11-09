@@ -31,7 +31,7 @@ public class Layout : MonoBehaviour
         {
         xmlr = new PT_XMLReader();
         xmlr.Parse(xmlText);
-        xml = xmlr.xml["XML"][0];
+        xml = xmlr.xml["xml"][0];
 
         multiplier.x = float.Parse(xml["multiplier"][0].att("x"));
         multiplier.y = float.Parse(xml["multiplier"][0].att("y"));
