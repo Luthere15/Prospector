@@ -70,6 +70,7 @@ public class Card : MonoBehaviour {
                     tSR.sortingOrder = sOrd + 2;
                     break;
                 case "face":
+                default:
                     tSR.sortingOrder = sOrd + 1;
                     break;
             }

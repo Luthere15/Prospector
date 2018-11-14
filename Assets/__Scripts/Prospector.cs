@@ -106,7 +106,7 @@ public class Prospector : MonoBehaviour
             cd.faceUp = false;
             cd.state = eCardState.drawpile;
             cd.SetSortingLayerName(layout.drawPile.layerName);
-            cd.SetSortOrder(-10 * 1);
+            cd.SetSortOrder(-10 * i);
         }
     }
 
@@ -155,6 +155,7 @@ public class Prospector : MonoBehaviour
                 cp.slotDef = tSD;
                 cp.state = eCardState.tableau;
 
+            cp.SetSortingLayerName(tSD.layerName);
                 tableau.Add(cp);
             }
 
@@ -201,7 +202,7 @@ public class Prospector : MonoBehaviour
             }
         }
 
-        void CardClicked(CardProspector cd)
+        public void CardClicked(CardProspector cd)
         {
             switch (cd.state)
             {

@@ -77,6 +77,12 @@ public class Layout : MonoBehaviour
                 case "discardpile":
                     discardPile = tSD;
                     break;
+
+                case "drawpile":
+                    tSD.stagger.x = float.Parse(slotsX[i].att("xstagger"));
+                    drawPile = tSD;
+                    break;
+
             }
 
         }
